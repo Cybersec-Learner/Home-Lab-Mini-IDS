@@ -1,0 +1,39 @@
+from datetime import datetime
+
+def detect(packet):
+
+    # ICMP Detection
+    if packet.haslayer(IP) and packet.haslayer(ICMP):
+
+        src = packet[IP].src
+        dst = packet[IP].dst
+
+        current_time = datetime.now().strftime("%H:%M:%S")
+
+        alert = f"[{current_time}] [ALERT] ICMP Packet Detected: {src} -> {dst}"
+
+        print(alert)
+
+        with open("alerts.log", "a") as f:
+            f.write(alert + "\n")
+
+    # TCP SYN Detection
+    if packet.haslayer(IP) and packet.haslayer(TCP):
+
+        if packet[TCP].flags == "S":
+
+            src = packet[IP].src
+            dst = packet[IP].dst
+            dport = packet[TCP].dport
+
+            current_time = datetime.now().strftime("%H:%M:%S")
+
+            alert = f"[{current_time}] [ALERT] TCP SYN Detected: {src} -> {dst}:{dport}"
+
+            print(alert)
+
+            with open("alerts.log", "a") as f:
+                f.write(alert + "\n")
+
+print("Mini IDS Started...")
+sniff(prn=detect, store=False)
