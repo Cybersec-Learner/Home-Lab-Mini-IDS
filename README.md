@@ -27,7 +27,6 @@ This project is a Python-based Mini Intrusion Detection System (IDS) developed i
 ```text
 Home-Lab-Mini-IDS/
 ├── ids.py
-├── ids_icmp.py
 ├── README.md
 └── screenshots/
 ```
